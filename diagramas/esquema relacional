@@ -1,0 +1,11 @@
+Bairro = {codigo_bairro (PK), nome}
+Usuário = {cpf (PK), nome, email, criado_em, codigo_bairro (FK -> Bairro)}
+Secretaria = {sigla_secretaria (PK), nome, descricao}
+Serviço = {registro_servico (PK), nome, descricao, endereco, codigo_bairro (FK -> Bairro), sigla_secretaria (FK -> Secretaria)}
+Questão = {numero_questao (PK), texto, tipo, valor_min, valor_max, obrigatoria}
+Opção = {codigo_opcao (PK), letra, texto, valor_numerico, numero_questao (FK -> Questão)}
+Avaliação = {numero_avaliacao (PK), titulo, descricao, data_inicio, data_fim, anonimato, criado_em}
+Avaliação_Serviço = {numero_avaliacao (PK, FK -> Avaliação), registro_servico (PK, FK -> Serviço)}
+Avaliação_Questão = {numero_avaliacao (PK, FK -> Avaliação), numero_questao (PK, FK -> Questão), ordem, peso}
+Resposta = {numero_resposta (PK), texto_resposta, valor_numerico, criado_em, numero_avaliacao (FK -> Avaliação), registro_servico (FK -> Serviço), numero_questao (FK -> Questão), cpf_usuario (FK -> Usuário), codigo_opcao (FK -> Opção)}
+
