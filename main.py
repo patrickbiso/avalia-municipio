@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import time
 
 from app.models.bairro import Bairro
 from app.models.usuario import Usuario
@@ -14,16 +15,21 @@ from app.dao.bairro_dao import BairroDAO
 def main():
     print("Iniciando testes do sistema.")
 
-    # 1. Cadastro de bairro
-    bairro = Bairro(nome="Centro")
+    
+    identificador = int(time.time())  
+
+    # 1. Cadastro de bairro 
+    nome_bairro = f"Bairro Teste {identificador}"
+    bairro = Bairro(nome=nome_bairro)
     BairroDAO.inserir(bairro)
     print(f"Bairro criado. ID: {bairro.codigo_bairro}")
 
-    # 2. Cadastro de usuário
+    # 2. Cadastro de usuário 
+    cpf_usuario = identificador  # unicidade
     usuario = Usuario(
-        cpf=33333333333,
-        nome="João Almeida",
-        email="joao.almeida@example.com",
+        cpf=cpf_usuario,
+        nome="Usuário de Teste",
+        email=f"usuario{identificador}@example.com",
         codigo_bairro=bairro.codigo_bairro
     )
     UsuarioController.cadastrar_usuario(usuario)
@@ -41,8 +47,8 @@ def main():
 
     # 4. Cadastro de avaliação
     avaliacao = Avaliacao(
-        titulo="Avaliação de Teste",
-        descricao="Teste de fluxo do sistema",
+        titulo=f"Avaliação de Teste {identificador}",
+        descricao="Teste de fluxo funcional do sistema",
         data_inicio=datetime.now(),
         data_fim=datetime.now() + timedelta(days=3),
         anonimato=False
@@ -65,3 +71,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -125,7 +125,7 @@ def seed():
         registro_servico=serv1.registro_servico,
         numero_questao=q2.numero_questao,
         cpf_usuario=u1.cpf,
-        codigo_opcao=1  # ajuste se necessário
+        codigo_opcao=1  
     ))
 
     print("\n=== Seed concluído ===\n")
