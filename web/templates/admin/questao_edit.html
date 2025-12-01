@@ -1,0 +1,23 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h3>{{ 'Editar' if questao else 'Nova Questão' }}</h3>
+
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Texto da Questão</label>
+        <input class="form-control" name="texto" value="{{ questao.texto if questao else '' }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tipo</label>
+        <select name="tipo" class="form-select">
+            <option value="escala">Escala (1 a 5)</option>
+            <option value="texto">Texto Livre</option>
+        </select>
+    </div>
+
+    <button class="btn btn-success">Salvar</button>
+</form>
+
+{% endblock %}

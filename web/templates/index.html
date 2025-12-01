@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="mb-4">Avaliações Disponíveis</h2>
+
+{% if avaliacoes %}
+    <ul class="list-group">
+        {% for av in avaliacoes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ av.titulo }}</strong><br>
+                    <small class="text-muted">{{ av.descricao }}</small>
+                </div>
+                <a href="/avaliacao/{{ av.numero_avaliacao }}" class="btn btn-primary btn-sm">
+                    Responder
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhuma avaliação disponível no momento.</p>
+{% endif %}
+
+{% endblock %}

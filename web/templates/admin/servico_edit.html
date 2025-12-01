@@ -1,0 +1,32 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h3>{{ 'Editar' if servico else 'Novo Serviço' }}</h3>
+
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input class="form-control" name="nome" value="{{ servico.nome if servico else '' }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" name="descricao">{{ servico.descricao if servico else '' }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Secretaria</label>
+        <select class="form-select" name="sigla_secretaria" required>
+            {% for sec in secretarias %}
+            <option value="{{ sec.sigla }}"
+                {% if servico and servico.sigla_secretaria == sec.sigla %} selected {% endif %}>
+                {{ sec.nome }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button class="btn btn-success">Salvar</button>
+</form>
+
+{% endblock %}

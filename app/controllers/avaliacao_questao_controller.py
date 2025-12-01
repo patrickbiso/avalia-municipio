@@ -1,4 +1,6 @@
 from app.dao.avaliacao_questao_dao import AvaliacaoQuestaoDAO
+from app.models.avaliacao_questao import AvaliacaoQuestao
+
 
 class AvaliacaoQuestaoController:
 

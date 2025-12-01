@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Avaliação #{{ id }}</h2>
+
+<form method="POST">
+
+    <div class="mb-3">
+        <label>CPF (ou qualquer identificação breve):</label>
+        <input class="form-control" name="cpf" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Serviço avaliado:</label>
+        <select class="form-control" name="servico" required>
+            {% for s in servicos %}
+                <option value="{{ s.registro_servico }}">{{ s.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Questão:</label>
+        <select class="form-control" name="questao" required>
+            {% for q in questoes %}
+                <option value="{{ q.numero_questao }}">{{ q.texto }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Nota (1 a 5):</label>
+        <select class="form-control" name="valor" required>
+            {% for i in range(1, 6) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button class="btn btn-success">Enviar Resposta</button>
+</form>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from app.dao.resposta_dao import RespostaDAO
 from app.models.resposta import Resposta
 
+
 class RespostaController:
 
     @staticmethod

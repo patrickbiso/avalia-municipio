@@ -1,0 +1,25 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h3>Questões</h3>
+
+<a href="/admin/questoes/novo" class="btn btn-success mb-3">+ Nova Questão</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Texto</th><th>Tipo</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+        {% for q in questoes %}
+        <tr>
+            <td>{{ q.texto }}</td>
+            <td>{{ q.tipo }}</td>
+            <td>
+                <a href="/admin/questoes/{{ q.numero_questao }}" class="btn btn-sm btn-primary">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

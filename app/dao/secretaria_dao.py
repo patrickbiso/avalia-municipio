@@ -32,3 +32,25 @@ class SecretariaDAO:
             return None
         
         return Secretaria(sigla_secretaria=row[0], nome=row[1], descricao=row[2])
+    
+    @staticmethod
+    def listar_todas():
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT sigla_secretaria, nome, descricao
+            FROM secretaria
+            ORDER BY nome;
+        """)
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        lista = []
+        for row in rows:
+            obj = type("Secretaria", (object,), {})()
+            obj.sigla_secretaria = row[0]
+            obj.nome = row[1]
+            obj.descricao = row[2]
+            lista.append(obj)
+        return lista

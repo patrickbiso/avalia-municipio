@@ -1,6 +1,7 @@
 from app.dao.questao_dao import QuestaoDAO
 from app.dao.opcao_dao import OpcaoDAO
 
+
 class QuestaoController:
 
     @staticmethod
@@ -13,6 +14,14 @@ class QuestaoController:
                 OpcaoDAO.inserir(op)
 
         return questao
+
+    @staticmethod
+    def listar_todas():
+        return QuestaoDAO.listar_todas()
+
+    @staticmethod
+    def listar_por_avaliacao(numero_avaliacao):
+        return QuestaoDAO.listar_por_avaliacao(numero_avaliacao)
 
     @staticmethod
     def listar_opcoes(numero_questao):

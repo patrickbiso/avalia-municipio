@@ -1,0 +1,25 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h3>Avaliações</h3>
+
+<a href="/admin/avaliacoes/nova" class="btn btn-success mb-3">+ Nova Avaliação</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Título</th><th>Período</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+        {% for a in avaliacoes %}
+        <tr>
+            <td>{{ a.titulo }}</td>
+            <td>{{ a.data_inicio.date() }} → {{ a.data_fim.date() }}</td>
+            <td>
+                <a href="/admin/avaliacoes/{{ a.numero_avaliacao }}" class="btn btn-sm btn-primary">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

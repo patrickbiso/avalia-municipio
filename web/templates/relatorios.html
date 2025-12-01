@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="mb-4">Relatórios</h2>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card p-3">
+            <h5>Ranking: Serviços por Média</h5>
+            <canvas id="chartRanking"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card p-3">
+            <h5>Média por Secretaria</h5>
+            <canvas id="chartSecretaria"></canvas>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="card p-3">
+            <h5>Evolução Mensal</h5>
+            <canvas id="chartEvolucao"></canvas>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="card p-3">
+            <h5>Distribuição por Questão</h5>
+
+            <form id="distForm" class="row g-2 mb-3">
+                <div class="col-md-3">
+                    <input name="numero_avaliacao" class="form-control" placeholder="ID Avaliação" required>
+                </div>
+                <div class="col-md-3">
+                    <input name="numero_questao" class="form-control" placeholder="ID Questão" required>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" type="submit">Gerar</button>
+                </div>
+            </form>
+
+            <canvas id="chartDistribuicao"></canvas>
+            <div id="distTable" class="mt-3"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const rankingData = JSON.parse(`{{ ranking_json | tojson | safe }}`);
+const secretariaData = JSON.parse(`{{ secretaria_json | tojson | safe }}`);
+const evolucaoData = JSON.parse(`{{ evolucao_json | tojson | safe }}`);
+
+
+
+function renderRanking() {
+    new Chart(document.getElementById('chartRanking'), {
+        type: "bar",
+        data: {
+            labels: rankingData.map(r => r.nome),
+            datasets: [{ label: "Média", data: rankingData.map(r => r.media) }]
+        }
+    });
+}
+
+function renderSecretaria() {
+    new Chart(document.getElementById('chartSecretaria'), {
+        type: "bar",
+        data: {
+            labels: secretariaData.map(s => s.sigla),
+            datasets: [{ label: "Média por Secretaria", data: secretariaData.map(s => s.media) }]
+        }
+    });
+}
+
+function renderEvolucao() {
+    new Chart(document.getElementById('chartEvolucao'), {
+        type: "line",
+        data: {
+            labels: evolucaoData.map(e => e.ano_mes),
+            datasets: [{ label: "Média Mensal", data: evolucaoData.map(e => e.media), fill: false }]
+        }
+    });
+}
+
+renderRanking();
+renderSecretaria();
+renderEvolucao();
+
+
+document.getElementById("distForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const av = this.numero_avaliacao.value;
+    const q = this.numero_questao.value;
+
+    const resp = await fetch(`/relatorios/distribuicao?numero_avaliacao=${av}&numero_questao=${q}`);
+    const json = await resp.json();
+
+    const labels = Object.keys(json.counts);
+    const data = Object.values(json.counts);
+
+    document.getElementById("distTable").innerHTML = `
+        <table class="table table-bordered table-sm mt-3">
+            <thead><tr><th>Valor</th><th>Contagem</th></tr></thead>
+            <tbody>
+                ${labels.map((l,i)=>`<tr><td>${l}</td><td>${data[i]}</td></tr>`).join("")}
+            </tbody>
+        </table>
+    `;
+
+    const ctx = document.getElementById("chartDistribuicao");
+
+    if (window.distChart) window.distChart.destroy();
+
+    window.distChart = new Chart(ctx, {
+        type: "bar",
+        data: { labels, datasets: [{ label: "Contagem", data }] }
+    });
+});
+</script>
+
+{% endblock %}

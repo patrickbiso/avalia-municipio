@@ -1,0 +1,29 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h3>Serviços</h3>
+
+<a href="/admin/servicos/novo" class="btn btn-success mb-3">+ Novo Serviço</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Secretaria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in servicos %}
+        <tr>
+            <td>{{ s.nome }}</td>
+            <td>{{ s.sigla_secretaria }}</td>
+            <td>
+                <a href="/admin/servicos/{{ s.registro_servico }}" class="btn btn-sm btn-primary">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

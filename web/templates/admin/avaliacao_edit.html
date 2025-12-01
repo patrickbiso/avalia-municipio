@@ -1,0 +1,70 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h3>Editar Avaliação</h3>
+
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input class="form-control" name="titulo" value="{{ avaliacao.titulo }}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" name="descricao">{{ avaliacao.descricao }}</textarea>
+    </div>
+
+    <button class="btn btn-success mb-4">Salvar Dados</button>
+</form>
+
+<hr>
+
+<h4>Questões</h4>
+
+<form method="POST" action="/admin/avaliacoes/{{ avaliacao.numero_avaliacao }}/add_questao">
+    <div class="row g-3">
+        <div class="col-md-9">
+            <select class="form-select" name="numero_questao">
+                {% for q in todas_questoes %}
+                <option value="{{ q.numero_questao }}">{{ q.texto }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100">Adicionar</button>
+        </div>
+    </div>
+</form>
+
+<ul class="list-group mt-3">
+    {% for q in questoes %}
+    <li class="list-group-item">{{ q.texto }}</li>
+    {% endfor %}
+</ul>
+
+<hr class="my-4">
+
+<h4>Serviços</h4>
+
+<form method="POST" action="/admin/avaliacoes/{{ avaliacao.numero_avaliacao }}/add_servico">
+    <div class="row g-3">
+        <div class="col-md-9">
+            <select class="form-select" name="registro_servico">
+                {% for s in todos_servicos %}
+                <option value="{{ s.registro_servico }}">{{ s.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100">Adicionar</button>
+        </div>
+    </div>
+</form>
+
+<ul class="list-group mt-3">
+    {% for s in servicos %}
+    <li class="list-group-item">{{ s.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

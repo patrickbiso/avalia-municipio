@@ -1,4 +1,5 @@
 from app.database import get_connection
+from app.models.servico import Servico
 from app.models.avaliacao_servico import AvaliacaoServico
 
 class AvaliacaoServicoDAO:
@@ -32,3 +33,23 @@ class AvaliacaoServicoDAO:
         conn.close()
 
         return [AvaliacaoServico(*row) for row in rows]
+
+    @staticmethod
+    def listar_por_avaliacao(numero_avaliacao):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT s.registro_servico, s.nome, s.descricao, s.endereco, s.codigo_bairro, s.sigla_secretaria
+            FROM avaliacao_servico a
+            JOIN servico s ON s.registro_servico = a.registro_servico
+            WHERE a.numero_avaliacao = %s
+            ORDER BY s.nome;
+        """, (numero_avaliacao,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        lista = []
+        for row in rows:
+            lista.append(Servico(*row))
+        return lista

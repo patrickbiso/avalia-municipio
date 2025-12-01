@@ -1,0 +1,36 @@
+{% extends "admin/layout_admin.html" %}
+{% block content %}
+
+<h2 class="mb-4">Dashboard Administrativo</h2>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card p-3 shadow text-center">
+            <h4>Secretarias</h4>
+            <a href="/admin/secretarias" class="btn btn-dark mt-2">Gerenciar</a>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3 shadow text-center">
+            <h4>Serviços</h4>
+            <a href="/admin/servicos" class="btn btn-dark mt-2">Gerenciar</a>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3 shadow text-center">
+            <h4>Questões</h4>
+            <a href="/admin/questoes" class="btn btn-dark mt-2">Gerenciar</a>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3 shadow text-center">
+            <h4>Avaliações</h4>
+            <a href="/admin/avaliacoes" class="btn btn-dark mt-2">Gerenciar</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
